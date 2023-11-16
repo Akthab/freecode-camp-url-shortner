@@ -35,6 +35,8 @@ app.post('/api/shorturl', (req, res) => {
 		url = url.replace(regex, '');
 	}
 
+	console.log('Afer URL ' + url);
+	url = 'freecode-backend-url-shortner.onrender.com';
 	dns.lookup(url, (err) => {
 		if (err) {
 			res.json({ error: 'invalid url' });
