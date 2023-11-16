@@ -40,7 +40,7 @@ app.post('/api/shorturl', (req, res) => {
 		} else {
 			const shortUrl = Object.keys(urls).length + 1;
 			urls[shortUrl] = url;
-			res.json({ original_url: url, short_url: shortUrl });
+			res.json({ original_url: 'https://' + url, short_url: shortUrl });
 		}
 	});
 });
