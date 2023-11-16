@@ -26,26 +26,16 @@ app.get('/api/hello', function (req, res) {
 
 app.post('/api/shorturl', (req, res) => {
 	var url = req.body.url;
-	const regex = /\/$/;
-	url = url.replace(regex, '');
 
-	console.log('URL ' + url);
-	if (url.startsWith('http://') || url.startsWith('https://')) {
-		const regex = /^https?:\/\/?/;
-		url = url.replace(regex, '');
-	}
+	const { hostname } = new URL(url);
 
-	console.log('Afer URL ' + url);
-	url = 'freecode-backend-url-shortner.onrender.com';
-	dns.lookup(url, (err) => {
+	dns.lookup(hostname, (err) => {
 		if (err) {
 			res.json({ error: 'invalid url' });
 		} else {
 			const shortUrl = Object.keys(urls).length + 1;
 			urls[shortUrl] = url;
-			console.log('DNS URL' + url);
-			console.log('SHORT URL' + shortUrl);
-			res.json({ original_url: 'https://' + url, short_url: shortUrl });
+			res.json({ original_url: url, short_url: shortUrl });
 		}
 	});
 });
@@ -54,7 +44,7 @@ app.get('/api/shorturl/:short_url', (req, res) => {
 	const shortUrl = req.params.short_url;
 	const url = urls[shortUrl];
 	if (url) {
-		res.redirect('https://' + url);
+		res.redirect(url);
 	} else {
 		res.json({ error: 'short url not found' });
 	}
