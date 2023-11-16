@@ -29,6 +29,7 @@ app.post('/api/shorturl', (req, res) => {
 	const regex = /\/$/;
 	url = url.replace(regex, '');
 
+	console.log('URL ' + url);
 	if (url.startsWith('http://') || url.startsWith('https://')) {
 		const regex = /^https?:\/\/?/;
 		url = url.replace(regex, '');
@@ -40,6 +41,8 @@ app.post('/api/shorturl', (req, res) => {
 		} else {
 			const shortUrl = Object.keys(urls).length + 1;
 			urls[shortUrl] = url;
+			console.log('DNS URL' + url);
+			console.log('SHORT URL' + shortUrl);
 			res.json({ original_url: 'https://' + url, short_url: shortUrl });
 		}
 	});
